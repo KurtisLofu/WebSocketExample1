@@ -34,14 +34,27 @@ namespace WebSocketExample1.Controllers
             {
                 // Quan es connecta un nou usuari: cal afegir el SocketHandler a la Collection, notificar a tothom la incorporació i donar-li la benvinguda
                 Sockets.Add(this);
+                ObtenerListaUsuarios();
                 this.Send("Saludos cordiales, " + this._nom + "!");
                 Sockets.Broadcast("Tothom, doneu la benvinguda a " + this._nom + "!");
+            }
+
+            private static void ObtenerListaUsuarios()
+            {
+                string listaUsuaris = "";
+
+                foreach (SocketHandler sck in Sockets)
+                {
+                    listaUsuaris += ";" + sck._nom;
+                }
+
+                Sockets.Broadcast(listaUsuaris);
             }
 
             public override void OnMessage(string missatge)
             {
                 // Quan un usuari envia un missatge, cal que tothom el rebi
-                Sockets.Broadcast("Missatge de " + this._nom + ": " + missatge);
+                Sockets.Broadcast(this._nom + ": " + missatge);
             }
 
             public override void OnClose()
@@ -50,6 +63,7 @@ namespace WebSocketExample1.Controllers
                 this.Send("Adéu " + this._nom);
                 Sockets.Broadcast(this._nom + " s'ha desconnectat, adéu!");
                 Sockets.Remove(this);
+                ObtenerListaUsuarios();
             }
         }
     }
