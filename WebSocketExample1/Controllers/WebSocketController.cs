@@ -55,6 +55,12 @@ namespace WebSocketExample1.Controllers
             {
                 // Quan un usuari envia un missatge, cal que tothom el rebi
                 Sockets.Broadcast(this._nom + ": " + missatge);
+
+                
+                if (missatge.Equals("Actualitzar"))
+                {
+                    Sockets.Broadcast("Actualitzar");
+                }
             }
 
             public override void OnClose()
