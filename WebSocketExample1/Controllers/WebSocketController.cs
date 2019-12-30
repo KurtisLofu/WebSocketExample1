@@ -57,9 +57,9 @@ namespace WebSocketExample1.Controllers
                 Sockets.Broadcast(this._nom + ": " + missatge);
 
                 
-                if (missatge.Equals("Actualitzar"))
+                if (missatge.Equals("ClientCommand_Actualitzar"))
                 {
-                    Sockets.Broadcast("Actualitzar");
+                    Sockets.Broadcast("ClientCommand_Actualitzar");
                 }
             }
 
